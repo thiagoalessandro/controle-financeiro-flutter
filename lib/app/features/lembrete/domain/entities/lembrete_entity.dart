@@ -1,4 +1,6 @@
-class LembreteEntity {
+import 'package:project_ref_getx/app/core/external/entity/base_entity.dart';
+
+class LembreteEntity extends BaseEntity{
   final int id;
   final String observacao;
   final DateTime dataCompra;

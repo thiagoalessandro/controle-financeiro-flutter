@@ -19,7 +19,7 @@ class MenuRepository implements IMenuRepository {
 
   List<MenuModel> _listMenu() {
     List<MenuModel> listMenu = List<MenuModel>();
-    listMenu.add(MenuModel(title: "Lembrete", icon: Icons.add_alert, page: ""));
+    listMenu.add(MenuModel(title: "Lembrete", icon: Icons.add_alert, page: "/"));
     listMenu
         .add(MenuModel(title: "Responsáveis", icon: Icons.people, page: ""));
     listMenu.add(MenuModel(title: "Despesas", icon: Icons.poll, page: ""));

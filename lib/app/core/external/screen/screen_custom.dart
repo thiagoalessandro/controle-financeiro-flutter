@@ -10,8 +10,6 @@ class ScreenCustom{
     ScreenUtil.init(ctx);
   }
 
-  static double get fator => ScreenUtil.screenHeight / ScreenUtil.screenWidth;
-
   static double get screenHeight => ScreenUtil.screenHeight;
 
   static double get screenWidth => ScreenUtil.screenWidth;

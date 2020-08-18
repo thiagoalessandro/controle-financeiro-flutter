@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:project_ref_getx/app/core/errors/api_exception.dart';
 import 'package:project_ref_getx/app/core/external/provider/api/base_api_provider.dart';
+import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 import 'package:project_ref_getx/app/features/lembrete/data/mapper/lembrete_mapper.dart';
 import 'package:project_ref_getx/app/features/lembrete/data/models/lembrete_model.dart';
 
@@ -16,8 +17,8 @@ class LembreteApi extends BaseApiProvider<LembreteModel> {
     this.resourceTitle = "Lembrete";
   }
 
-  Future<Either<ApiException, List<LembreteModel>>> getAll() async {
-    return this.get(service: "lembrete");
+  Future<Either<ApiException, PageWrapper<LembreteModel>>> list({@required int pageNumber}) async {
+    return this.getPage(service: "lembrete", pageNumber: pageNumber);
   }
 
   @override

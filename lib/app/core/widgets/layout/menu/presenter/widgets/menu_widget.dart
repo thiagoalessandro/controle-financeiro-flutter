@@ -4,8 +4,9 @@ import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
 import 'package:project_ref_getx/app/core/external/view/base_view_controller.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/presenter/controller/menu_controller.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/presenter/widgets/item_menu_widget.dart';
+import 'package:project_ref_getx/app/core/widgets/layout/menu/presenter/widgets/menu_style.dart';
 
-class MenuWidget extends BaseViewController<MenuController> {
+class MenuWidget extends BaseViewController<MenuController> with MenuStyle{
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +14,10 @@ class MenuWidget extends BaseViewController<MenuController> {
     ScreenCustom.init(context);
 
     return Positioned(
-      bottom: ScreenCustom.bottomBarHeight,
+      bottom: bottomBarHeight,
       left: 0,
       right: 0,
-      height: ScreenCustom.screenHeight * .15,
+      height: menuHeight,
       child: Container(
         child: Obx(() =>
             ListView.builder(
