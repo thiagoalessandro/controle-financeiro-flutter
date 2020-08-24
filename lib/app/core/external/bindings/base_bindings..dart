@@ -2,6 +2,7 @@ import "package:dio/dio.dart";
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:project_ref_getx/app/core/environment/env.dart';
+import 'package:get/get.dart';
 
 abstract class BaseBindings {
   Logger logger;
@@ -9,7 +10,7 @@ abstract class BaseBindings {
 
   BaseBindings({@required baseUrl}) {
     _instanceDio(baseUrl);
-    _instanceLogger();
+    _loadInstanceLogger();
   }
 
   _instanceDio(String baseUrl) {
@@ -28,10 +29,8 @@ abstract class BaseBindings {
     }));
   }
 
-  _instanceLogger() {
-    this.logger = Logger(
-      printer: PrettyPrinter(methodCount: 0),
-    );
+  _loadInstanceLogger() {
+    this.logger = Get.find<Logger>();
   }
 
   _printRequest(RequestOptions options) {

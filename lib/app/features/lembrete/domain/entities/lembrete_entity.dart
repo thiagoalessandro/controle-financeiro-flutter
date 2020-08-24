@@ -1,12 +1,12 @@
 import 'package:project_ref_getx/app/core/external/entity/base_entity.dart';
 
-class LembreteEntity extends BaseEntity{
-  final int id;
-  final String observacao;
-  final DateTime dataCompra;
-  final double valor;
-  final String responsavel;
-  final String categoria;
+class LembreteEntity extends BaseEntity {
+  int id;
+  String observacao;
+  DateTime dataCompra;
+  double valor;
+  String responsavel;
+  String categoria;
 
   LembreteEntity({
     this.id,
@@ -16,24 +16,4 @@ class LembreteEntity extends BaseEntity{
     this.categoria,
     this.observacao,
   });
-
-  @override
-  factory LembreteEntity.fromJson(Map<String, dynamic> json) {
-    return LembreteEntity(
-      id: json["id"] as int,
-      categoria: json["categoria"] as String,
-      dataCompra: DateTime.parse(json["dataCompra"]),
-      observacao: json["observacao"] as String,
-      responsavel: json["responsavel"] as String,
-      valor: json["valor"] as double,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() => {};
-
-  @override
-  String toString() {
-    return '{ ${this.observacao} }';
-  }
 }

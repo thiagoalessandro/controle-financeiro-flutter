@@ -7,8 +7,7 @@ import 'package:project_ref_getx/app/core/widgets/loading/progress_pagination/pr
 
 import 'base_item_widget.dart';
 
-class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle{
-
+class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle {
   final List<BaseEntity> list;
   final ScrollController scrollController;
   final bool loading;
@@ -33,25 +32,25 @@ class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle{
       child: Stack(
         children: <Widget>[
           Container(
-            child: list.length > 0
+            child: !this.loading
                 ? ListView.builder(
-              padding: EdgeInsets.all(0),
-              itemCount: list.length + 1,
-              itemBuilder: (context, index) {
-                if (index == list.length) {
-                  return ProgressPaginationWidget(
-                    last: last,
-                    length: list.length,
-                  );
-                } else {
-                  return item.generate(list.elementAt(index));
-                }
-              },
-              controller: scrollController,
-            )
+                    padding: EdgeInsets.all(0),
+                    itemCount: list.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == list.length) {
+                        return ProgressPaginationWidget(
+                          last: last,
+                          length: list.length,
+                        );
+                      } else {
+                        return item.generate(list.elementAt(index));
+                      }
+                    },
+                    controller: scrollController,
+                  )
                 : Center(
-              child: CircularProgressIndicator(),
-            ),
+                    child: CircularProgressIndicator(),
+                  ),
             width: double.infinity,
             height: listCardHeigth,
           ),
@@ -59,5 +58,4 @@ class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle{
       ),
     );
   }
-
 }

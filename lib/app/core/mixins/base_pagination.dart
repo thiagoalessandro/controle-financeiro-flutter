@@ -6,16 +6,20 @@ import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 
 mixin BasePagination<T> {
   final listItem = List<T>().obs;
-  final ScrollController _srollController = ScrollController();
+  final search = "TODOS".obs;
+  final isLoading = false.obs;
 
-  bool _last = false;
-  int _pageNumber = 0;
-  int _nextNumber = 0;
-  bool _isLoading = false;
+  final ScrollController scrollController = ScrollController();
 
-  init() {
-    listener();
-    loadList();
+  bool last = false;
+  int pageNumber = 0;
+  int nextNumber = 0;
+
+  init() async {
+    this.isLoading.value = true;
+    this.listener();
+    await this.loadList();
+    this.isLoading.value = false;
   }
 
   Future<bool> loadList() async {
@@ -33,46 +37,47 @@ mixin BasePagination<T> {
     return true;
   }
 
+  Future<void> toSearch(String value) async {
+    if (value.length > 2 || value.length == 0) {
+      this.clean();
+      this.isLoading.value = true;
+      this.search.value = value.length != 0 ? value : "TODOS";
+      var result = await list();
+      result.fold(
+          (ApiException e) =>
+              Get.rawSnackbar(title: "Alerta", message: e.message.toString()),
+          (data) => {
+                this.listItem.value = data.list.value,
+                this.last = data.last,
+                this.pageNumber = data.pageNumber,
+              });
+      this.isLoading.value = false;
+    }
+  }
+
   listener() {
-    scrollController?.addListener(() async {
-      if (!loading &&
-          scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent) {
-        if (!last) {
-          loading = true;
-          this._nextNumber++;
+    this.scrollController?.addListener(() async {
+      if (!this.isLoading.value &&
+          this.scrollController.position.pixels ==
+              this.scrollController.position.maxScrollExtent) {
+        if (!this.last) {
+          this.nextNumber++;
           await loadList();
-          this.loading = false;
         }
       }
     });
   }
 
   Future<void> reloadList() async {
-    loading = true;
-    last = false;
-    _nextNumber = 0;
+    this.clean();
     await loadList();
-    this.loading = false;
+  }
+
+  void clean(){
+    this.last = false;
+    this.nextNumber = 0;
   }
 
   Future<Either<ApiException, PageWrapper<T>>> list();
 
-  set last(value) => this._last = value;
-
-  get last => this._last;
-
-  set loading(value) => this._isLoading = value;
-
-  get loading => this._isLoading;
-
-  set pageNumber(value) => this._pageNumber;
-
-  get pageNumber => this._pageNumber;
-
-  set nextNumber(value) => this._nextNumber;
-
-  get nextNumber => this._nextNumber;
-
-  get scrollController => _srollController;
 }

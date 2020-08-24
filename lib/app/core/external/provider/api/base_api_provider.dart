@@ -5,30 +5,49 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:project_ref_getx/app/core/environment/env.dart';
 import 'package:project_ref_getx/app/core/errors/api_exception.dart';
+import 'package:project_ref_getx/app/core/external/mapper/i_mapper.dart';
 import 'package:project_ref_getx/app/core/external/provider/api/dto/base_api_dto.dart';
 import 'package:project_ref_getx/app/core/external/provider/api/i_base_api_provider.dart';
 import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 
 abstract class BaseApiProvider<T extends BaseApiDTO>
     implements IBaseApiProvider<T> {
-  final Dio dio;
-  final Logger logger;
-  String resourceTitle;
 
-  BaseApiProvider({@required this.dio, @required this.logger});
+  final Dio dio;
+  final Logger logger = Get.find<Logger>();
+  String resourceTitle;
+  final IMapper mapper;
+
+  BaseApiProvider({@required this.dio, @required this.mapper});
 
   Future<Either<ApiException, PageWrapper<T>>> getPage({
     @required String service,
-    @required int pageNumber
+    @required int pageNumber,
+    @required String search
   }) async {
     try {
       int numberItemPage = environment.numberItemPage;
-      Response response = await dio.get("/$service/$pageNumber/$numberItemPage");
+      Response response = await dio.get("/$service/$pageNumber/$numberItemPage/$search");
       PageWrapper<T> page = convertToPage(response);
       return right(page);
     } on DioError catch (e) {
-      String message =
-          "Ocorreu um erro ao buscar ${resourceTitle.toLowerCase()}(s)";
+      String message = "Ocorreu um erro ao buscar ${resourceTitle.toLowerCase()}(s)";
+      logger.e(message, e);
+      if (e?.response?.statusCode == 404) return left(NotFoundException());
+      return left(InternalServerErrorException(message: e.error));
+    } catch (e) {
+      logger.e("Erro ao acessar api $service", e);
+      return left(InternalServerErrorException(message: e.message));
+    }
+  }
+
+  Future<Either<ApiException, List<T>>> getAll({String service}) async{
+    try {
+      Response response = await dio.get("/$service");
+      List<T> list = convertToList(response);
+      return right(list);
+    } on DioError catch (e) {
+      String message = "Ocorreu um erro ao buscar ${resourceTitle.toLowerCase()}(s)";
       logger.e(message, e);
       if (e?.response?.statusCode == 404) return left(NotFoundException());
       return left(InternalServerErrorException(message: e.error));
@@ -52,5 +71,7 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
       .map((json) => this.parseJsonToModel(json))
       .toList();
 
-  T parseJsonToModel(dynamic json);
+  T parseJsonToModel(json) {
+    return mapper.convert(json);
+  }
 }

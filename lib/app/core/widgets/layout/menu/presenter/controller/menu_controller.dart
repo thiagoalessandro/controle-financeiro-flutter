@@ -23,4 +23,7 @@ class MenuController extends BaseController{
     );
   }
 
+  @override
+  get title => throw UnimplementedError();
+
 }

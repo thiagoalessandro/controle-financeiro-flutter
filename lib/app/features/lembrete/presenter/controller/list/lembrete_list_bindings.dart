@@ -5,24 +5,23 @@ import 'package:project_ref_getx/app/features/lembrete/data/datasources/lembrete
 import 'package:project_ref_getx/app/features/lembrete/data/mapper/lembrete_mapper.dart';
 import 'package:project_ref_getx/app/features/lembrete/data/repositories/lembrete_repository.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/usecases/lembrete_usecase.dart';
-import 'package:project_ref_getx/app/features/lembrete/presenter/controller/lembrete_controller.dart';
+import 'package:project_ref_getx/app/features/lembrete/presenter/controller/list/lembrete_list_controller.dart';
 
-class LembreteBinding extends BaseBindings implements Bindings {
-  LembreteBinding() : super(baseUrl: environment.baseUrlContaPagar);
+class LembreteListBinding extends BaseBindings implements Bindings {
+  LembreteListBinding() : super(baseUrl: environment.baseUrlContaPagar);
 
   @override
   void dependencies() {
-    Get.lazyPut<LembreteController>(() {
-      return LembreteController(
+    Get.lazyPut<LembreteListController>(() {
+      return LembreteListController(
         LembreteUsecase(
-          lembreteRepository: LembreteRepository(
-              lembreteApi: LembreteApi(
-                dio: dio,
-                logger: this.logger,
-                mapper: LembreteMapper(),
-              ),
+          repository: LembreteRepository(
+            lembreteApi: LembreteApi(
+              dio: dio,
               mapper: LembreteMapper(),
-              logger: this.logger),
+            ),
+            mapper: LembreteMapper(),
+          ),
         ),
       );
     });

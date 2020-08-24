@@ -6,13 +6,13 @@ import 'package:project_ref_getx/app/features/lembrete/domain/entities/lembrete_
 import 'package:project_ref_getx/app/features/lembrete/domain/repositories/i_lembrete_repository.dart';
 
 class LembreteUsecase {
-  final ILembreteRepository lembreteRepository;
+  final ILembreteRepository repository;
 
-  LembreteUsecase({@required this.lembreteRepository})
-      : assert(lembreteRepository != null);
+  LembreteUsecase({@required this.repository})
+      : assert(repository != null);
 
-  Future<Either<ApiException, PageWrapper<LembreteEntity>>> listLembrete({int pageNumber}) async {
-    var result = await lembreteRepository.list(pageNumber: pageNumber);
+  Future<Either<ApiException, PageWrapper<LembreteEntity>>> listLembrete({int pageNumber, String search}) async {
+    var result = await repository.list(pageNumber: pageNumber, search: search);
     return result.fold((l) => left(l), (r) => right(r));
   }
 }

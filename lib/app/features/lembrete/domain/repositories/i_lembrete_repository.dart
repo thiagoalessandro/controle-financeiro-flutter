@@ -5,5 +5,5 @@ import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/entities/lembrete_entity.dart';
 
 abstract class ILembreteRepository {
-  Future<Either<ApiException, PageWrapper<LembreteEntity>>> list({@required int pageNumber});
+  Future<Either<ApiException, PageWrapper<LembreteEntity>>> list({@required int pageNumber, String search});
 }
