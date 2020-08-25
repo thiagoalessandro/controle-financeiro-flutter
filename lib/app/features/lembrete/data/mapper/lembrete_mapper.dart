@@ -7,8 +7,7 @@ class LembreteMapper implements IMapper<LembreteModel, LembreteEntity> {
   LembreteEntity from([LembreteModel object]) {
     return LembreteEntity(
       id: object.id,
-      categoria: object.categoria,
-      dataCompra: object.dataCompra,
+      dataCompra: DateTime.fromMillisecondsSinceEpoch(object.dataCompra),
       observacao: object.observacao,
       responsavel: object.responsavel,
       valor: object.valor,
@@ -16,23 +15,21 @@ class LembreteMapper implements IMapper<LembreteModel, LembreteEntity> {
   }
 
   @override
-  LembreteModel to([LembreteEntity object]) {
-    return LembreteModel(
-      id: object.id,
-      categoria: object.categoria,
-      dataCompra: object.dataCompra,
-      observacao: object.observacao,
-      responsavel: object.responsavel,
-      valor: object.valor,
-    );
+  Map toJson([LembreteEntity object]) {
+    return {
+      'id': object.id,
+      'dataCompra': object.dataCompra.millisecondsSinceEpoch,
+      'observacao': object.observacao,
+      'responsavel': object.responsavel,
+      'valor': object.valor,
+    };
   }
 
   @override
   LembreteModel convert([dynamic json]) {
     return LembreteModel(
       id: json["id"] as int,
-      categoria: json["categoria"] as String,
-      dataCompra: DateTime.parse(json["dataCompra"]),
+      dataCompra: json["dataCompra"] as int,
       observacao: json["observacao"] as String,
       responsavel: json["responsavel"] as String,
       valor: json["valor"] as double,

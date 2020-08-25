@@ -6,14 +6,12 @@ class LembreteEntity extends BaseEntity {
   DateTime dataCompra;
   double valor;
   String responsavel;
-  String categoria;
 
   LembreteEntity({
     this.id,
     this.dataCompra,
     this.valor,
     this.responsavel,
-    this.categoria,
     this.observacao,
   });
 }

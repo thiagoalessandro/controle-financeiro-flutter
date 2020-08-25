@@ -36,7 +36,7 @@ dependencies:
   dartz: ^0.9.1
   argon_buttons_flutter: ^1.0.6
   date_time_picker: "^1.0.1"
-  flutter_masked_text: ^0.8.0
+  currency_text_input_formatter: ^0.1.4
   flutter:
     sdk: flutter
 

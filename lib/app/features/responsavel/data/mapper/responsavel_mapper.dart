@@ -11,10 +11,10 @@ class ResponsavelMapper implements IMapper<ResponsavelModel, ResponsavelEntity>{
   }
 
   @override
-  ResponsavelModel to([ResponsavelEntity object]) {
-    return ResponsavelModel(
-      nome: object.nome,
-    );
+  Map toJson([ResponsavelEntity object]) {
+    return {
+      'nome': object.nome,
+    };
   }
 
   @override

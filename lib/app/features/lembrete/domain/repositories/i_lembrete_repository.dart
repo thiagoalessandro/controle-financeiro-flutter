@@ -6,4 +6,5 @@ import 'package:project_ref_getx/app/features/lembrete/domain/entities/lembrete_
 
 abstract class ILembreteRepository {
   Future<Either<ApiException, PageWrapper<LembreteEntity>>> list({@required int pageNumber, String search});
+  Future<Either<ApiException, LembreteEntity>> save({@required LembreteEntity lembreteEntity});
 }

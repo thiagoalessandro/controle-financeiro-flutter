@@ -16,5 +16,5 @@ class MenuMapper implements IMapper<MenuModel, MenuEntity> {
   }
 
   @override
-  MenuModel to([MenuEntity object]) {}
+  Map toJson([MenuEntity object]) {}
 }

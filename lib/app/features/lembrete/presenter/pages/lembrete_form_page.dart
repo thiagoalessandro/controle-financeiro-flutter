@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:project_ref_getx/app/core/environment/env.dart';
 import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
 import 'package:project_ref_getx/app/core/external/view/base_view_controller.dart';
+import 'package:project_ref_getx/app/core/helpers/money_helper.dart';
 import 'package:project_ref_getx/app/core/widgets/button/button_save_form/button_save_form.dart';
 import 'package:project_ref_getx/app/core/widgets/date_time_field/date_time_field.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/app_bar/app_bar_form/app_bar_form.dart';
@@ -68,7 +69,7 @@ class LembreteFormPage extends BaseViewController<LembreteFormController> {
                           return null;
                         },
                         onSaved: (value){
-                          controller.entity.valor = value;
+                          controller.entity.valor = MoneyHelper.getOnlyNumber(value);
                         },
                       ),
                     )

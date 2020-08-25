@@ -19,4 +19,8 @@ class LembreteApi extends BaseApiProvider<LembreteModel> {
     return this.getPage(service: "lembrete", pageNumber: pageNumber, search: search);
   }
 
+  Future<Either<ApiException, LembreteModel>> save({@required Map json}) async {
+    return this.post(service: "lembrete", body: json);
+  }
+
 }

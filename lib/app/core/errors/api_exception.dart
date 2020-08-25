@@ -12,3 +12,8 @@ class InternalServerErrorException extends ApiException {
   final message;
   InternalServerErrorException({this.message});
 }
+
+class ErrorsException extends ApiException {
+  final message;
+  ErrorsException({this.message});
+}

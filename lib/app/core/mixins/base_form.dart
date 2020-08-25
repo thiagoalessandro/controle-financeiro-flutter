@@ -10,6 +10,6 @@ mixin BaseForm<T> {
 
   final formKey = GlobalKey<FormState>();
 
-  void onSave();
+  Future<void> onSave();
 
 }

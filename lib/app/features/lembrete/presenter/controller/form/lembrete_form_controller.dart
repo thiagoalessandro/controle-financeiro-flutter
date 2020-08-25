@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:project_ref_getx/app/core/errors/api_exception.dart';
 import 'package:project_ref_getx/app/core/external/controller/base_controller.dart';
 import 'package:project_ref_getx/app/core/mixins/base_form.dart';
+import 'package:project_ref_getx/app/core/routes/app_routes.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/entities/lembrete_entity.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/usecases/lembrete_usecase.dart';
 import 'package:project_ref_getx/app/features/responsavel/domain/entities/reponsavel_entity.dart';
@@ -39,17 +40,32 @@ class LembreteFormController extends BaseController
   get title => "Lembrete";
 
   @override
-  void onSave() {
+  Future<void> onSave() async {
     try {
       if (formKey.currentState.validate()) {
         formKey.currentState.save();
-        print("Formuário válido ${entity.toString()}");
+        var result = await lembreteUsecase.save(lembreteEntity: entity);
+        result.fold(
+            (exception) => notification(
+              title: "Error",
+              message: exception.message,
+            ),
+            (data) => {
+                  notification(title: "Sucesso", message: "Lembrete cadastrado"),
+                  Get.offAllNamed(AppRoutes.LEMBRETE)
+                });
       } else {
-        print("Formuário Inválido");
+        notification(
+          title: "Alerta",
+          message: "Existem dados inválidos",
+        );
       }
-    }catch(e){
+    } catch (e) {
       logger.e(e);
-      notification(title: "Error", message: "Ocorreu um erro ao cadastrar o lembrete");
+      notification(
+        title: "Error",
+        message: "Ocorreu um erro ao cadastrar o lembrete",
+      );
     }
   }
 }

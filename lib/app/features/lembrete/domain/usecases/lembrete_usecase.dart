@@ -11,8 +11,14 @@ class LembreteUsecase {
   LembreteUsecase({@required this.repository})
       : assert(repository != null);
 
-  Future<Either<ApiException, PageWrapper<LembreteEntity>>> listLembrete({int pageNumber, String search}) async {
+  Future<Either<ApiException, PageWrapper<LembreteEntity>>> listLembrete({@required int pageNumber, @required String search}) async {
     var result = await repository.list(pageNumber: pageNumber, search: search);
     return result.fold((l) => left(l), (r) => right(r));
   }
+
+  Future<Either<ApiException, LembreteEntity>> save({@required LembreteEntity lembreteEntity}) async {
+    var result = await repository.save(lembreteEntity: lembreteEntity);
+    return result.fold((l) => left(l), (r) => right(r));
+  }
+
 }

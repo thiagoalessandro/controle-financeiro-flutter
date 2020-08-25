@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,26 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
     }
   }
 
+  Future<Either<ApiException, T>> post({@required String service, @required Map body}) async {
+    try {
+      Response response = await dio.post("/$service", data: body);
+      List errors = response.data['errors'] as List;
+      if(errors != null && errors.length > 0){
+        return left(ErrorsException(message: errors.join("\n")));
+      }
+      T object = convertSingleObject(response);
+      return right(object);
+    } on DioError catch (e) {
+      String message = "Ocorreu um erro ao salvar ${resourceTitle.toLowerCase()}(s)";
+      logger.e(message, e);
+      if (e?.response?.statusCode == 404) return left(NotFoundException());
+      return left(InternalServerErrorException(message: e.error));
+    } catch (e) {
+      logger.e("Erro ao acessar api $service", e);
+      return left(InternalServerErrorException(message: e.message));
+    }
+  }
+
   PageWrapper<T> convertToPage(dynamic response) {
     var page = PageWrapper<T>();
     page.list.value = (response.data['data']['content'] as List)
@@ -70,6 +92,10 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
   List<T> convertToList(dynamic response) => (response.data['data'] as List)
       .map((json) => this.parseJsonToModel(json))
       .toList();
+
+  T convertSingleObject(dynamic response){
+    return parseJsonToModel(response.data['data']);
+  }
 
   T parseJsonToModel(json) {
     return mapper.convert(json);

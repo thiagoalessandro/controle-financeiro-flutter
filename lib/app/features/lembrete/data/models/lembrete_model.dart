@@ -4,17 +4,15 @@ class LembreteModel extends BaseApiDTO{
 
   final int id;
   final String observacao;
-  final DateTime dataCompra;
+  final int dataCompra;
   final double valor;
   final String responsavel;
-  final String categoria;
 
   LembreteModel({
     this.id,
     this.dataCompra,
     this.valor,
     this.responsavel,
-    this.categoria,
     this.observacao,
   });
 
