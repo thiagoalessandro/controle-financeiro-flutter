@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 
-class ButtonAddItem extends BaseViewStateless {
+class ButtonAddItem extends BaseView {
   final String route;
 
   ButtonAddItem({@required this.route});

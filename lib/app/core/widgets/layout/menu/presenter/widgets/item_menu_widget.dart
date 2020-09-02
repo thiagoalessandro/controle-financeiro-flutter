@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/domain/entities/menu_entity.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/presenter/widgets/item_menu_style.dart';
 
-class ItemMenuWidget extends BaseViewStateless with ItemMenuStyle{
+class ItemMenuWidget extends BaseView with ItemMenuStyle{
   final MenuEntity menu;
 
   ItemMenuWidget(this.menu);

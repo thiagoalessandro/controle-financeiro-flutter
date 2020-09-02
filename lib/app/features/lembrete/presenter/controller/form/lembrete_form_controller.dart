@@ -1,71 +1,76 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_ref_getx/app/core/constants/notification.dart';
+import 'package:project_ref_getx/app/core/enums/resource_title.dart';
 import 'package:project_ref_getx/app/core/errors/api_exception.dart';
-import 'package:project_ref_getx/app/core/external/controller/base_controller.dart';
-import 'package:project_ref_getx/app/core/mixins/base_form.dart';
+import 'package:project_ref_getx/app/core/external/controller/base_form_controller.dart';
 import 'package:project_ref_getx/app/core/routes/app_routes.dart';
+import 'package:project_ref_getx/app/core/utils/money_utils.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/entities/lembrete_entity.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/usecases/lembrete_usecase.dart';
 import 'package:project_ref_getx/app/features/responsavel/domain/entities/reponsavel_entity.dart';
 import 'package:project_ref_getx/app/features/responsavel/domain/usecases/responsavel_usecase.dart';
 
-class LembreteFormController extends BaseController
-    with BaseForm<LembreteEntity> {
-  final LembreteUsecase lembreteUsecase;
-  final ResponsavelUsecase responsavelUsecase;
+class LembreteFormController extends BaseFormController<LembreteEntity> {
+  final LembreteUsecase _lembreteUsecase;
+  final ResponsavelUsecase _responsavelUsecase;
 
   final listResponsavel = List<ResponsavelEntity>().obs;
   final dataLembrete = DateTime.now().obs;
 
   LembreteFormController(
-      {@required this.lembreteUsecase, @required this.responsavelUsecase});
+    this._lembreteUsecase,
+    this._responsavelUsecase,
+  ): super();
 
   @override
   void onInit() {
     super.onInit();
-    entity = LembreteEntity();
     _loadListReponsavel();
   }
 
+  @override
+  String get title => ResourceTitle.LEMBRETE.description;
+
   _loadListReponsavel() async {
-    var result = await responsavelUsecase.list();
+    var result = await _responsavelUsecase.list();
     result.fold(
-      (ApiException e) =>
-          notification(title: "Alerta", message: e.message.toString()),
+      (ApiException e) => NotificationCustom.error(e.message.toString()),
       (data) => listResponsavel.value = data,
     );
   }
-
-  @override
-  get title => "Lembrete";
 
   @override
   Future<void> onSave() async {
     try {
       if (formKey.currentState.validate()) {
         formKey.currentState.save();
-        var result = await lembreteUsecase.save(lembreteEntity: entity);
-        result.fold(
-            (exception) => notification(
-              title: "Error",
-              message: exception.message,
-            ),
-            (data) => {
-                  notification(title: "Sucesso", message: "Lembrete cadastrado"),
-                  Get.offAllNamed(AppRoutes.LEMBRETE)
-                });
+        var result = await _lembreteUsecase.save(lembreteEntity: entity);
+        result.fold((exception) => NotificationCustom.error(exception.message),
+            (data) => {Get.offAllNamed(AppRoutes.LEMBRETE)});
       } else {
-        notification(
-          title: "Alerta",
-          message: "Existem dados inválidos",
-        );
+        NotificationCustom.alert("Existem dados inválidos");
       }
     } catch (e) {
       logger.e(e);
-      notification(
-        title: "Error",
-        message: "Ocorreu um erro ao cadastrar o lembrete",
-      );
+      NotificationCustom.alert("Ocorreu um erro ao cadastrar o lembrete");
     }
   }
+
+  @override
+  LembreteEntity get instanceEntity => LembreteEntity();
+
+  onSavedObservacao(value) => entity.observacao = value;
+
+  validatorObservacao(value) => value.isEmpty ? 'Campo observação é obrigatório' : null;
+
+  onSavedData(value) => entity.dataCompra = DateTime.parse(value);
+
+  validatorData(value) => value.isEmpty ? 'Campo data é obrigatório' : null;
+
+  onSavedValor(value) => entity.valor = MoneyUtils.getOnlyNumber(value);
+
+  validatorValor(value) =>  value.isEmpty ? 'Campo valor é obrigatório' : null;
+
+  onSavedResponsavel(String value) => entity.responsavel = value;
+
 }

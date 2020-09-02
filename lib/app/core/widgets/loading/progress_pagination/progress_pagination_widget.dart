@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/loading/progress_pagination/progress_pagination_style.dart';
 
-class ProgressPaginationWidget extends BaseViewStateless with ProgressPaginationStyle{
+class ProgressPaginationWidget extends BaseView with ProgressPaginationStyle{
 
   final bool last;
   final int length;

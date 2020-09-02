@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/text_field/text_field_search/text_field_search_style.dart';
 
-class TextFieldSearch extends BaseViewStateless with TextFieldSearchStyle{
+class TextFieldSearch extends BaseView with TextFieldSearchStyle{
   final Function(String value) searchFunction;
   final String title;
 

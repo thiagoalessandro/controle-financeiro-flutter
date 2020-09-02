@@ -6,18 +6,22 @@ import 'package:project_ref_getx/app/features/lembrete/domain/entities/lembrete_
 import 'package:project_ref_getx/app/features/lembrete/domain/repositories/i_lembrete_repository.dart';
 
 class LembreteUsecase {
-  final ILembreteRepository repository;
+  final ILembreteRepository _repository;
 
-  LembreteUsecase({@required this.repository})
-      : assert(repository != null);
+  LembreteUsecase(this._repository);
 
   Future<Either<ApiException, PageWrapper<LembreteEntity>>> listLembrete({@required int pageNumber, @required String search}) async {
-    var result = await repository.list(pageNumber: pageNumber, search: search);
+    var result = await _repository.list(pageNumber: pageNumber, search: search);
     return result.fold((l) => left(l), (r) => right(r));
   }
 
   Future<Either<ApiException, LembreteEntity>> save({@required LembreteEntity lembreteEntity}) async {
-    var result = await repository.save(lembreteEntity: lembreteEntity);
+    var result = await _repository.save(lembreteEntity: lembreteEntity);
+    return result.fold((l) => left(l), (r) => right(r));
+  }
+
+  Future<Either<ApiException, bool>> deleteById({int id}) async {
+    var result = await _repository.deleteById(id: id);
     return result.fold((l) => left(l), (r) => right(r));
   }
 

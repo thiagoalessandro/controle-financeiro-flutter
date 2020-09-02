@@ -1,11 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/routes/app_routes.dart';
 import 'package:project_ref_getx/app/core/widgets/splashscreen/splash_screen_style.dart';
 
-class SplashScreenWidget extends BaseViewStateless with SplashScreenStyle{
+class SplashScreenWidget extends BaseView with SplashScreenStyle{
 
   @override
   Widget build(BuildContext context) {

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/text_field/text_field_form/text_field_form_style.dart';
 
-class TextFieldForm extends BaseViewStateless with TextFieldFormStyle{
+class TextFieldForm extends BaseView with TextFieldFormStyle{
   final IconData iconData;
   final String title;
   final TextInputType keyboardType;
   final Function onPressed;
-  final Function onSaved;
-  final Function validator;
+  final Function(String value) onSaved;
+  final Function(String value) validator;
+  final String initialValue;
 
   TextFieldForm({
     @required this.title,
     @required this.iconData,
     @required this.onSaved,
+    @required this.initialValue,
     this.keyboardType,
     this.onPressed,
     this.validator,
@@ -31,8 +33,9 @@ class TextFieldForm extends BaseViewStateless with TextFieldFormStyle{
           isDense: true,
         ),
         onTap: onPressed,
-        onSaved: onSaved,
-        validator: validator,
+        onSaved: (value) => onSaved(value),
+        validator: (value) => validator(value),
+        initialValue: initialValue
       ),
     );
   }

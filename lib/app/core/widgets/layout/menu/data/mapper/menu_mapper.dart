@@ -4,6 +4,7 @@ import 'package:project_ref_getx/app/core/widgets/layout/menu/domain/entities/me
 
 class MenuMapper implements IMapper<MenuModel, MenuEntity> {
   @override
+  // ignore: missing_return
   MenuModel convert([dynamic json]) {}
 
   @override
@@ -16,5 +17,6 @@ class MenuMapper implements IMapper<MenuModel, MenuEntity> {
   }
 
   @override
+  // ignore: missing_return
   Map toJson([MenuEntity object]) {}
 }

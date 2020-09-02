@@ -16,14 +16,12 @@ class AppPages {
         name: AppRoutes.LEMBRETE,
         page: () => LembreteListPage(),
         binding: LembreteListBinding(),
-        title: "Lembrete",
         transition: Transition.leftToRight
     ),
     GetPage(
         name: AppRoutes.LEMBRETE_FORM,
         page: () => LembreteFormPage(),
         binding: LembreteFormBinding(),
-        title: "Lembrete",
         transition: Transition.rightToLeft
     ),
   ];

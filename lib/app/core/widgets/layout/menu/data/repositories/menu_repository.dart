@@ -7,13 +7,13 @@ import 'package:project_ref_getx/app/core/widgets/layout/menu/domain/repositorie
 
 
 class MenuRepository implements IMenuRepository {
-  final MenuMapper mapper;
+  final MenuMapper _mapper;
 
-  MenuRepository({@required this.mapper});
+  MenuRepository(this._mapper);
 
   @override
   Future<Either<Exception, List<MenuEntity>>> getAll() async {
-    List<MenuEntity> listMenuEntity = _listMenu().map((model) => mapper.from(model)).toList();
+    List<MenuEntity> listMenuEntity = _listMenu().map((model) => _mapper.from(model)).toList();
     return right(listMenuEntity);
   }
 

@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:connectivity/connectivity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +14,14 @@ import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 abstract class BaseApiProvider<T extends BaseApiDTO>
     implements IBaseApiProvider<T> {
 
-  final Dio dio;
+  final Dio _dio;
+  final IMapper _mapper;
   final Logger logger = Get.find<Logger>();
-  String resourceTitle;
-  final IMapper mapper;
 
-  BaseApiProvider({@required this.dio, @required this.mapper});
+  BaseApiProvider(this._dio, this._mapper);
+
+  String get baseService;
+  String get resourceTitle;
 
   Future<Either<ApiException, PageWrapper<T>>> getPage({
     @required String service,
@@ -28,8 +29,9 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
     @required String search
   }) async {
     try {
+      await checkConnectivity();
       int numberItemPage = environment.numberItemPage;
-      Response response = await dio.get("/$service/$pageNumber/$numberItemPage/$search");
+      Response response = await _dio.get("$service/$pageNumber/$numberItemPage/$search");
       PageWrapper<T> page = convertToPage(response);
       return right(page);
     } on DioError catch (e) {
@@ -39,13 +41,14 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
       return left(InternalServerErrorException(message: e.error));
     } catch (e) {
       logger.e("Erro ao acessar api $service", e);
-      return left(InternalServerErrorException(message: e.message));
+      return left(InternalServerErrorException(message: e));
     }
   }
 
   Future<Either<ApiException, List<T>>> getAll({String service}) async{
     try {
-      Response response = await dio.get("/$service");
+      await checkConnectivity();
+      Response response = await _dio.get("$service");
       List<T> list = convertToList(response);
       return right(list);
     } on DioError catch (e) {
@@ -55,13 +58,14 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
       return left(InternalServerErrorException(message: e.error));
     } catch (e) {
       logger.e("Erro ao acessar api $service", e);
-      return left(InternalServerErrorException(message: e.message));
+      return left(InternalServerErrorException(message: e));
     }
   }
 
   Future<Either<ApiException, T>> post({@required String service, @required Map body}) async {
     try {
-      Response response = await dio.post("/$service", data: body);
+      await checkConnectivity();
+      Response response = await _dio.post("$service", data: body);
       List errors = response.data['errors'] as List;
       if(errors != null && errors.length > 0){
         return left(ErrorsException(message: errors.join("\n")));
@@ -75,7 +79,27 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
       return left(InternalServerErrorException(message: e.error));
     } catch (e) {
       logger.e("Erro ao acessar api $service", e);
-      return left(InternalServerErrorException(message: e.message));
+      return left(InternalServerErrorException(message: e));
+    }
+  }
+
+  Future<Either<ApiException, bool>> delete({@required String service, @required int id}) async {
+    try {
+      await checkConnectivity();
+      Response response = await _dio.delete("$service/$id");
+      List errors = response.data['errors'] as List;
+      if(errors != null && errors.length > 0){
+        return left(ErrorsException(message: errors.join("\n")));
+      }
+      return right(true);
+    } on DioError catch (e) {
+      String message = "Ocorreu um erro ao deletar ${resourceTitle.toLowerCase()}(s)";
+      logger.e(message, e);
+      if (e?.response?.statusCode == 404) return left(NotFoundException());
+      return left(InternalServerErrorException(message: e.error));
+    } catch (e) {
+      logger.e("Erro ao acessar api $service", e);
+      return left(InternalServerErrorException(message: e));
     }
   }
 
@@ -98,6 +122,18 @@ abstract class BaseApiProvider<T extends BaseApiDTO>
   }
 
   T parseJsonToModel(json) {
-    return mapper.convert(json);
+    return _mapper.convert(json);
   }
+
+  checkConnectivity() async{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      logger.i("Conexão Mobile");
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      logger.i("Conexão Wifi");
+    } else if (connectivityResult == ConnectivityResult.none) {
+      throw ("Sem conexão com a internet");
+    }
+  }
+
 }

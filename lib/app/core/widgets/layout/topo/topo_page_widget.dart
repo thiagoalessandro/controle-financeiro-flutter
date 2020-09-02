@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/topo/topo_page_style.dart';
 
-class TopoPageWidget extends BaseViewStateless with TopoPageStyle{
+class TopoPageWidget extends BaseView with TopoPageStyle{
   final String title;
 
   TopoPageWidget({this.title});

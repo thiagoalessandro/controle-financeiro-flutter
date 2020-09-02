@@ -3,8 +3,6 @@ import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
 
 mixin CardItemLembreteStyle{
 
-  final boxHeigth = 70.0;
-
   final responsibleImageWidth = 42.0;
   final responsibleImageHeigth = 42.0;
 

@@ -4,9 +4,9 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 
-class ButtonSaveForm extends BaseViewStateless {
+class ButtonSaveForm extends BaseView {
   final Function() onSave;
 
   ButtonSaveForm({@required this.onSave});

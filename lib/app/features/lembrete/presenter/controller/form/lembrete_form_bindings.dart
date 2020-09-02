@@ -6,7 +6,6 @@ import 'package:project_ref_getx/app/features/lembrete/data/mapper/lembrete_mapp
 import 'package:project_ref_getx/app/features/lembrete/data/repositories/lembrete_repository.dart';
 import 'package:project_ref_getx/app/features/lembrete/domain/usecases/lembrete_usecase.dart';
 import 'package:project_ref_getx/app/features/lembrete/presenter/controller/form/lembrete_form_controller.dart';
-import 'package:project_ref_getx/app/features/lembrete/presenter/controller/list/lembrete_list_controller.dart';
 import 'package:project_ref_getx/app/features/responsavel/data/datasources/responsavel_api.dart';
 import 'package:project_ref_getx/app/features/responsavel/data/mapper/responsavel_mapper.dart';
 import 'package:project_ref_getx/app/features/responsavel/data/repositories/responsavel_repository.dart';
@@ -19,20 +18,20 @@ class LembreteFormBinding extends BaseBindings implements Bindings {
   void dependencies() {
     Get.lazyPut<LembreteFormController>(() {
       return LembreteFormController(
-        lembreteUsecase: LembreteUsecase(
-          repository: LembreteRepository(
-            lembreteApi: LembreteApi(
-              dio: dio,
-              mapper: LembreteMapper(),
+        LembreteUsecase(
+          LembreteRepository(
+            LembreteApi(
+              dio,
+              LembreteMapper(),
             ),
-            mapper: LembreteMapper(),
+            LembreteMapper(),
           ),
         ),
-        responsavelUsecase: ResponsavelUsecase(
-          repository: ResponsavelRepository(
+        ResponsavelUsecase(
+          ResponsavelRepository(
             responsavelApi: ResponsavelApi(
-              dio: dio,
-              mapper: ResponsavelMapper(),
+              dio,
+              ResponsavelMapper(),
             ),
             mapper: ResponsavelMapper(),
           ),

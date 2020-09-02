@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:project_ref_getx/app/core/external/entity/base_entity.dart';
 import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/list_pagination/list_pagination_style.dart';
 import 'package:project_ref_getx/app/core/widgets/loading/progress_pagination/progress_pagination_widget.dart';
 
-import 'base_item_widget.dart';
+import 'base_item_list/base_item_list_widget.dart';
 
-class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle {
+class ListPaginationWidget extends BaseView with ListPaginationStyle {
   final List<BaseEntity> list;
   final ScrollController scrollController;
   final bool loading;
   final bool last;
-  final BaseItemWidget item;
+  final BaseItemListWidget item;
+  final Function(BaseEntity entity) onDelete;
 
   ListPaginationWidget({
     @required this.list,
@@ -20,6 +21,7 @@ class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle {
     @required this.loading,
     @required this.last,
     @required this.item,
+    @required this.onDelete,
   });
 
   @override
@@ -32,25 +34,27 @@ class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle {
       child: Stack(
         children: <Widget>[
           Container(
-            child: !this.loading
-                ? ListView.builder(
-                    padding: EdgeInsets.all(0),
-                    itemCount: list.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index == list.length) {
-                        return ProgressPaginationWidget(
-                          last: last,
-                          length: list.length,
-                        );
-                      } else {
-                        return item.generate(list.elementAt(index));
-                      }
-                    },
-                    controller: scrollController,
-                  )
-                : Center(
-                    child: CircularProgressIndicator(),
-                  ),
+            child: Visibility(
+              child: ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount: list.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == list.length) {
+                    return ProgressPaginationWidget(
+                      last: last,
+                      length: list.length,
+                    );
+                  } else {
+                    return item.generate(list.elementAt(index), onDelete, context);
+                  }
+                },
+                controller: scrollController,
+              ),
+              visible: !this.loading,
+              replacement: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
             width: double.infinity,
             height: listCardHeigth,
           ),
@@ -58,4 +62,5 @@ class ListPaginationWidget extends BaseViewStateless with ListPaginationStyle {
       ),
     );
   }
+
 }

@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:get/get.dart';
-import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
 
 class PageWrapper<T> {
 

@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_ref_getx/app/core/constants/notification.dart';
 import 'package:project_ref_getx/app/core/errors/api_exception.dart';
+import 'package:project_ref_getx/app/core/external/controller/base_controller.dart';
 import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 
-mixin BasePagination<T> {
+abstract class BaseListController<T> extends BaseController{
+
   final listItem = List<T>().obs;
   final search = "TODOS".obs;
   final isLoading = false.obs;
@@ -25,15 +28,15 @@ mixin BasePagination<T> {
   Future<bool> loadList() async {
     final result = await list();
     result.fold(
-        (ApiException e) =>
-            Get.rawSnackbar(title: "Alerta", message: e.message.toString()),
-        (data) => {
-              this.nextNumber != 0
-                  ? this.listItem.addAll(data.list)
-                  : this.listItem.value = data.list.value,
-              this.last = data.last,
-              this.pageNumber = data.pageNumber,
-            });
+            (ApiException e) =>
+            NotificationCustom.error(e.message),
+            (data) => {
+          this.nextNumber != 0
+              ? this.listItem.addAll(data.list)
+              : this.listItem.value = data.list.value,
+          this.last = data.last,
+          this.pageNumber = data.pageNumber,
+        });
     return true;
   }
 
@@ -44,13 +47,13 @@ mixin BasePagination<T> {
       this.search.value = value.length != 0 ? value : "TODOS";
       var result = await list();
       result.fold(
-          (ApiException e) =>
-              Get.rawSnackbar(title: "Alerta", message: e.message.toString()),
-          (data) => {
-                this.listItem.value = data.list.value,
-                this.last = data.last,
-                this.pageNumber = data.pageNumber,
-              });
+              (ApiException e) =>
+              NotificationCustom.error(e.message),
+              (data) => {
+            this.listItem.value = data.list.value,
+            this.last = data.last,
+            this.pageNumber = data.pageNumber,
+          });
       this.isLoading.value = false;
     }
   }
@@ -73,11 +76,26 @@ mixin BasePagination<T> {
     await loadList();
   }
 
-  void clean(){
+  void clean() {
     this.last = false;
     this.nextNumber = 0;
   }
 
   Future<Either<ApiException, PageWrapper<T>>> list();
+
+  Future<Either<ApiException, bool>> onDeleteByEntity(T entity);
+
+  Future<void> onDelete(T entity) async {
+    try {
+      var result = await onDeleteByEntity(entity);
+      result.fold((ApiException e) => NotificationCustom.error(e.message),
+              (data) => {NotificationCustom.success("Item excluído com sucesso"), listItem.remove(entity)});
+    } catch (e) {
+      logger.e(e.message);
+      NotificationCustom.error("Não foi possivel excluir o item!");
+    }
+  }
+
+  String get formRouter;
 
 }

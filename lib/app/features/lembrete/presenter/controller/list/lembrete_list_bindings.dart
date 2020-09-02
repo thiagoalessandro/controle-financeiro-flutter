@@ -15,12 +15,12 @@ class LembreteListBinding extends BaseBindings implements Bindings {
     Get.lazyPut<LembreteListController>(() {
       return LembreteListController(
         LembreteUsecase(
-          repository: LembreteRepository(
-            lembreteApi: LembreteApi(
-              dio: dio,
-              mapper: LembreteMapper(),
+          LembreteRepository(
+            LembreteApi(
+              dio,
+              LembreteMapper(),
             ),
-            mapper: LembreteMapper(),
+            LembreteMapper(),
           ),
         ),
       );

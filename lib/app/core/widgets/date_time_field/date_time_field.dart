@@ -1,15 +1,17 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/date_time_field/date_time_field_style.dart';
 
-class DateTimeField extends BaseViewStateless with DateTimeFieldStyle {
+class DateTimeField extends BaseView with DateTimeFieldStyle {
   final String title;
-  final Function onSaved;
-  final Function validator;
+  final DateTime initialValue;
+  final Function(String value) onSaved;
+  final Function(String value) validator;
 
   DateTimeField({
     @required this.title,
+    @required this.initialValue,
     @required this.onSaved,
     this.validator,
   });
@@ -25,11 +27,11 @@ class DateTimeField extends BaseViewStateless with DateTimeFieldStyle {
           isDense: true,
         ),
         dateMask: "dd/MM/yyyy",
-        initialValue: '',
+        initialValue: initialValue != null ? initialValue.toIso8601String() : null,
         firstDate: DateTime(2000),
         lastDate: DateTime(2100),
-        onSaved: onSaved,
-        validator: validator,
+        onSaved: (value) => onSaved(value),
+        validator: (value) => validator(value),
       ),
     );
   }

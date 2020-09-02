@@ -2,10 +2,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
-import 'package:project_ref_getx/app/core/external/view/base_view_stateless.dart';
+import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/button/button_option_page/button_option_page_style.dart';
 
-class ButtonOptionPageWidget extends BaseViewStateless with ButtonOptionPageStyle{
+class ButtonOptionPageWidget extends BaseView with ButtonOptionPageStyle{
 
   @override
   Widget build(BuildContext context) {
