@@ -17,19 +17,16 @@ class ItemMenuWidget extends BaseView with ItemMenuStyle{
     ScreenCustom.init(context);
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: menuItemHorizontal,
-        vertical: menuItemVertical,
-      ),
+      padding: EdgeInsets.only(left: menuItemHorizontal),
       child: GestureDetector(
         onTap: () => Get.offNamed(menu.page),
         child: Container(
           width: menuItemWidth,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: Theme.of(context).accentColor,
+            color: colorPrimary,
             boxShadow: <BoxShadow>[
-              BoxShadow(offset: Offset(0.2, 0.6), blurRadius: 0.2),
+              BoxShadow(offset: Offset(0.6, 0.5), blurRadius: 0.7),
             ],
           ),
           child: Padding(

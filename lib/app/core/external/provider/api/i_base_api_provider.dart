@@ -4,15 +4,15 @@ import 'package:project_ref_getx/app/core/errors/api_exception.dart';
 import 'package:project_ref_getx/app/core/external/provider/api/dto/base_api_dto.dart';
 import 'package:project_ref_getx/app/core/wrapper/page_wrapper.dart';
 
-abstract class IBaseApiProvider<T extends BaseApiDTO> {
+abstract class IBaseApiProvider {
 
-  Future<Either<ApiException, PageWrapper<T>>> getPage({
+  Future<Either<ApiException, PageWrapper<T>>> getPage<T extends BaseApiDTO>({
     @required String service,
     @required int pageNumber,
   });
 
-  List<T> convertToList(dynamic response);
+  List<T> convertToList<T extends BaseApiDTO>(dynamic response);
 
-  T parseJsonToModel(dynamic json);
+  T parseJsonToModel<T extends BaseApiDTO>(dynamic json);
 
 }

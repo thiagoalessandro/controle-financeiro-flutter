@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:project_ref_getx/app/core/environment/env.dart';
 import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/widgets/dropdown/dropdown_field_responsavel_form/dropdown_field_responsavel_form_style.dart';
-import 'package:project_ref_getx/app/features/responsavel/domain/entities/reponsavel_entity.dart';
+import 'package:project_ref_getx/app/modules/responsavel/domain/entities/reponsavel_entity.dart';
 import 'package:strings/strings.dart';
 
 class DropdownFieldResponsavelForm extends BaseView with DropdownFieldResponsavelFormStyle{
@@ -36,7 +36,7 @@ class DropdownFieldResponsavelForm extends BaseView with DropdownFieldResponsave
                     backgroundImage: NetworkImage(
                       "${environment.baseUrlIcons}/${responsavel.nome.toLowerCase()}.png",
                     ),
-                    backgroundColor: Theme.of(Get.context).primaryColor,
+                    backgroundColor: colorPrimary,
                     radius: radiusAvatar,
                   ),
                   Padding(

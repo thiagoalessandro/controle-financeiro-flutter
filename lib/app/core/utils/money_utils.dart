@@ -8,7 +8,12 @@ class MoneyUtils{
   }
 
   static String getFormatMoneyWithSymbol(double value){
-    return "R\$ ${NumberFormat("#,##0.00").format(value)}";
+    try {
+      if(value == null) return "R\$ 0,00";
+      return "R\$ ${NumberFormat("#,##0.00").format(value)}";
+    }catch(e){
+      print("Erro ao formatar valor $value");
+    }
   }
 
   static String getFormatMoneyNoSymbol(double value){

@@ -15,14 +15,9 @@ abstract class BaseItemListWidget<T extends BaseEntity> with BaseItemListStyle {
         child: Container(
           width: double.infinity,
           height: boxHeigth,
-          child: GestureDetector(
-            onTap: () => Get.rawSnackbar(title: "Visualização", message: ""),
-            child: Card(
-              elevation: elevationCardMain,
-              child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: stack(entity, context)),
-            ),
+          child: Card(
+            elevation: elevationCardMain,
+            child: listTile(entity, context),
           ),
         ),
         secondaryActions: <Widget>[
@@ -76,7 +71,7 @@ abstract class BaseItemListWidget<T extends BaseEntity> with BaseItemListStyle {
     )..show();
   }
 
-  stack(T entity, BuildContext context);
+  listTile(T entity, BuildContext context);
 
   String description(T entity);
 }

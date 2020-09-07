@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_ref_getx/app/core/external/screen/screen_custom.dart';
 import 'package:project_ref_getx/app/core/external/view/base_view.dart';
 import 'package:project_ref_getx/app/core/routes/app_routes.dart';
 import 'package:project_ref_getx/app/core/widgets/splashscreen/splash_screen_style.dart';
@@ -10,17 +11,17 @@ class SplashScreenWidget extends BaseView with SplashScreenStyle{
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration(seconds: 5), (){
-      Get.offNamed(AppRoutes.LEMBRETE);
-    });
+    ScreenCustom.init(context);
 
-    print("Drawing SplashScreenWidget");
+    Future.delayed(Duration(seconds: 5), (){
+      Get.offNamed(AppRoutes.DASHBOARD);
+    });
 
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Theme.of(context).accentColor,
+        color: colorAccent,
         child: Stack(children: <Widget>[
           Center(
             child: Pulse(
@@ -36,21 +37,6 @@ class SplashScreenWidget extends BaseView with SplashScreenStyle{
                       scale: logoSize,
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: textPaddingBotton),
-            child: FadeIn(
-              delay: Duration(milliseconds: 2600),
-              duration: Duration(seconds: 1),
-              child: Text(
-                "Controle Financeiro Seguro",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: textFontSize,
-                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

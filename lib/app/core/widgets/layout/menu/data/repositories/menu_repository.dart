@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ref_getx/app/core/routes/app_routes.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/data/mapper/menu_mapper.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/data/models/menu_model.dart';
 import 'package:project_ref_getx/app/core/widgets/layout/menu/domain/entities/menu_entity.dart';
@@ -19,16 +20,11 @@ class MenuRepository implements IMenuRepository {
 
   List<MenuModel> _listMenu() {
     List<MenuModel> listMenu = List<MenuModel>();
-    listMenu.add(MenuModel(title: "Lembrete", icon: Icons.add_alert, page: "/"));
-    listMenu
-        .add(MenuModel(title: "Responsáveis", icon: Icons.people, page: ""));
+    listMenu.add(MenuModel(title: "Lembrete", icon: Icons.add_alert, page: AppRoutes.LEMBRETE));
     listMenu.add(MenuModel(title: "Despesas", icon: Icons.poll, page: ""));
-    listMenu
-        .add(MenuModel(title: "Cartão Gold", icon: Icons.payment, page: ""));
-    listMenu
-        .add(MenuModel(title: "Cartão Iconta", icon: Icons.payment, page: ""));
-    listMenu
-        .add(MenuModel(title: "Cartão Nubank", icon: Icons.payment, page: ""));
+    listMenu.add(MenuModel(title: "Cartão Gold", icon: Icons.payment, page: ""));
+    listMenu.add(MenuModel(title: "Cartão Iconta", icon: Icons.payment, page: ""));
+    listMenu.add(MenuModel(title: "Cartão Nubank", icon: Icons.payment, page: ""));
     return listMenu;
   }
 }

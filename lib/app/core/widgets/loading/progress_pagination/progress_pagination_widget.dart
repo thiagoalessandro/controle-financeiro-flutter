@@ -18,7 +18,7 @@ class ProgressPaginationWidget extends BaseView with ProgressPaginationStyle{
         padding: EdgeInsets.all(indicatorPaddingAll),
         child: Center(
           child: SpinKitThreeBounce(
-            color: Theme.of(context).accentColor,
+            color: colorAccent,
             size: indicatorSize,
           ),
         ),

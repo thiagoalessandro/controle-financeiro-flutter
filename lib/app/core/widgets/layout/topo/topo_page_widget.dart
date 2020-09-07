@@ -19,7 +19,7 @@ class TopoPageWidget extends BaseView with TopoPageStyle{
       height: topoPageHeigth,
       child: Container(
         height: ScreenCustom.screenHeight,
-        decoration: BoxDecoration(color: Theme.of(context).accentColor),
+        decoration: BoxDecoration(color: colorAccent),
         child: Stack(
           children: <Widget>[
             Padding(

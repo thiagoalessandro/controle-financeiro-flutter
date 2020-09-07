@@ -10,8 +10,8 @@ mixin BaseStyle {
 
   final paddindTextField = 6.0;
 
-  final green = Color(0xFF47BFA3);
-  final greenAccent = Color(0xFF269B88);
+  get colorPrimary => Theme.of(ScreenCustom.context).primaryColor;
+  get colorAccent => Theme.of(ScreenCustom.context).accentColor;
 
   get screenWidth => ScreenCustom.screenWidth;
   get screenHeight => ScreenCustom.screenHeight;

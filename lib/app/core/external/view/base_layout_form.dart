@@ -13,7 +13,7 @@ abstract class BaseLayoutForm<T extends BaseFormController> extends BaseViewCont
 
     return Scaffold(
       appBar: AppBarForm(
-        title: "Adicionar ${controller.title}",
+        title: "${controller.isEdit ? 'Editar' : 'Adicionar'} ${controller.title}",
       ),
       body: SingleChildScrollView(
         child: Padding(

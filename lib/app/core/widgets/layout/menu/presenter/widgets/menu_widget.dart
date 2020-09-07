@@ -13,20 +13,15 @@ class MenuWidget extends BaseViewController<MenuController> with MenuStyle{
 
     ScreenCustom.init(context);
 
-    return Positioned(
-      bottom: bottomBarHeight,
-      left: 0,
-      right: 0,
+    return Container(
       height: menuHeight,
-      child: Container(
-        child: Obx(() =>
-            ListView.builder(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.listMenu.length,
-              itemBuilder: (context, index) => ItemMenuWidget(controller.listMenu.elementAt(index)),
-            ),
-        ),
+      child: Obx(() =>
+          ListView.builder(
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.listMenu.length,
+            itemBuilder: (context, index) => ItemMenuWidget(controller.listMenu.elementAt(index)),
+          ),
       ),
     );
   }

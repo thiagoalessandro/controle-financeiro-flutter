@@ -16,6 +16,8 @@ abstract class BaseFormController<T> extends BaseController {
     }
   }
 
+  bool get isEdit => Get.arguments != null;
+
   T get instanceEntity;
 
   Future<void> onSave();

@@ -18,8 +18,8 @@ class ButtonOptionPageWidget extends BaseView with ButtonOptionPageStyle{
           ),
           fabElevation: 3,
           ringDiameter: bottomOptionListRingDiameter,
-          ringColor: greenAccent,
-          fabColor: green,
+          ringColor: colorAccent,
+          fabColor: colorPrimary,
           fabOpenIcon: Icon(
             Icons.menu,
             color: Colors.white,
