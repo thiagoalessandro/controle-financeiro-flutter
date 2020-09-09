@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:project_ref_getx/app/core/errors/api_exception.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/gasto_periodo_entity.dart';
@@ -14,13 +15,20 @@ class DashboardUsecase {
 
   DashboardUsecase(this._repository);
 
-  Future<Either<ApiException, ResumoCartaoEntity>> resumoCartaoByTipo({@required TipoCartao tipoCartao}) async {
-    var result = await _repository.resumoCartaoByTipo(tipoCartao: tipoCartao.toString());
+  Future<Either<ApiException, ResumoCartaoEntity>>
+      resumoCartaoByTipoAndResponsavel({
+    @required TipoCartao tipoCartao,
+    @required String responsavel,
+  }) async {
+    var result =
+        await _repository.resumoCartaoByTipoAndResponsavel(tipoCartao: EnumToString.parse(tipoCartao), responsavel: responsavel);
     return result.fold((l) => left(l), (r) => right(r));
   }
 
-  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesaByCategoria({@required CategoriaDespesa categoriaDespesa}) async {
-    var result = await _repository.resumoDespesaByCategoria(categoriaDespesa: categoriaDespesa.toString());
+  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesaByCategoria(
+      {@required CategoriaDespesa categoriaDespesa}) async {
+    var result = await _repository.resumoDespesaByCategoria(
+        categoriaDespesa: categoriaDespesa.toString());
     return result.fold((l) => left(l), (r) => right(r));
   }
 
@@ -29,7 +37,8 @@ class DashboardUsecase {
     return result.fold((l) => left(l), (r) => right(r));
   }
 
-  Future<Either<ApiException, List<GastoPeriodoEntity>>> gastoGeralPeriodo({@required String responsavel}) async {
+  Future<Either<ApiException, List<GastoPeriodoEntity>>> gastoGeralPeriodo(
+      {@required String responsavel}) async {
     var result = await _repository.gastoGeralPeriodo(responsavel: responsavel);
     return result.fold((l) => left(l), (r) => right(r));
   }
@@ -38,5 +47,4 @@ class DashboardUsecase {
     var result = await _repository.totalGasto();
     return result.fold((l) => left(l), (r) => right(r));
   }
-
 }

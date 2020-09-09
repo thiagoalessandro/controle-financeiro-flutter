@@ -22,7 +22,6 @@ class LembreteFormBinding extends BaseBindings implements Bindings {
           LembreteRepository(
             LembreteApi(
               dio,
-              LembreteMapper(),
             ),
             LembreteMapper(),
           ),
@@ -31,7 +30,6 @@ class LembreteFormBinding extends BaseBindings implements Bindings {
           ResponsavelRepository(
             ResponsavelApi(
               dio,
-              ResponsavelMapper(),
             ),
             ResponsavelMapper(),
           ),

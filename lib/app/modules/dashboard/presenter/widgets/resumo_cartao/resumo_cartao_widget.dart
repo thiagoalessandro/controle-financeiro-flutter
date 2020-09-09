@@ -92,7 +92,7 @@ class ResumoCartaoWidget extends BaseView with ResumoCartaoStyle {
                             padding: EdgeInsets.only(top: paddingTopMoney),
                             child: Text(
                               MoneyUtils.getFormatMoneyWithSymbol(
-                                  resumoCartaoEntity.valorAtual),
+                                  resumoCartaoEntity.valorProjecao),
                               style: TextStyle(
                                 color: colorTextAndIcon,
                                 fontWeight: fontWeightMoney,

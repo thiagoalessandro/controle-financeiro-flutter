@@ -51,7 +51,7 @@ class DashboardController extends BaseController {
   }
 
   loadResumoCartao(TipoCartao tipoCartao) async {
-    var result = await _dashboardUsecase.resumoCartaoByTipo(tipoCartao: tipoCartao);
+    var result = await _dashboardUsecase.resumoCartaoByTipoAndResponsavel(tipoCartao: tipoCartao, responsavel: responsavel);
     result.fold(
         (exception) => NotificationCustom.error("Não foi possível buscar resumo cartão ${tipoCartao.description}"),
         (data) => setDataCartao(tipoCartao, data),

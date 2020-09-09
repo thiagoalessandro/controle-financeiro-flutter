@@ -18,7 +18,6 @@ class LembreteListBinding extends BaseBindings implements Bindings {
           LembreteRepository(
             LembreteApi(
               dio,
-              LembreteMapper(),
             ),
             LembreteMapper(),
           ),

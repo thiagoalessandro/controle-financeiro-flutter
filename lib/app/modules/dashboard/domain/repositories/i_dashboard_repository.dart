@@ -7,9 +7,19 @@ import 'package:project_ref_getx/app/modules/dashboard/domain/entities/resumo_de
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/resumo_lembrete_entity.dart';
 
 abstract class IDashboardRepository {
-  Future<Either<ApiException, ResumoCartaoEntity>> resumoCartaoByTipo({@required String tipoCartao});
-  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesaByCategoria({@required String categoriaDespesa});
+  Future<Either<ApiException, ResumoCartaoEntity>>
+      resumoCartaoByTipoAndResponsavel({
+    @required String tipoCartao,
+    @required String responsavel,
+  });
+
+  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesaByCategoria(
+      {@required String categoriaDespesa});
+
   Future<Either<ApiException, double>> totalGasto();
+
   Future<Either<ApiException, ResumoLembreteEntity>> resumoLembrete();
-  Future<Either<ApiException, List<GastoPeriodoEntity>>> gastoGeralPeriodo({@required String responsavel});
+
+  Future<Either<ApiException, List<GastoPeriodoEntity>>> gastoGeralPeriodo(
+      {@required String responsavel});
 }

@@ -4,6 +4,7 @@ import 'package:project_ref_getx/app/core/errors/api_exception.dart';
 import 'package:project_ref_getx/app/core/external/repositories/base_repository.dart';
 import 'package:project_ref_getx/app/modules/dashboard/data/datasources/dashboard_api.dart';
 import 'package:project_ref_getx/app/modules/dashboard/data/mapper/gasto_periodo_mapper.dart';
+import 'package:project_ref_getx/app/modules/dashboard/data/mapper/resumo_cartao_mapper.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/gasto_periodo_entity.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/resumo_cartao_entity.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/resumo_despesa_entity.dart';
@@ -13,19 +14,19 @@ import 'package:project_ref_getx/app/modules/dashboard/domain/repositories/i_das
 class DashboardRepository extends BaseRepository
     implements IDashboardRepository {
   final DashboardApi _dashboardApi;
-  final GastoPeriodoMapper _mapper;
 
   DashboardRepository(
     this._dashboardApi,
-    this._mapper,
   );
 
   @override
-  Future<Either<ApiException, ResumoCartaoEntity>> resumoCartaoByTipo(
-      {@required String tipoCartao}) async {
-    ResumoCartaoEntity resumoCartaoEntity =
-        ResumoCartaoEntity(valorAtual: 1589.0, valorProjecao: 1239.0);
-    return right(resumoCartaoEntity);
+  Future<Either<ApiException, ResumoCartaoEntity>>
+      resumoCartaoByTipoAndResponsavel({
+    @required String tipoCartao,
+    @required String responsavel,
+  }) async {
+    var result = await _dashboardApi.resumoCartaoByTipoAndResponsavel(tipoCartao: tipoCartao, responsavel: responsavel);
+    return result.fold((l) => left(l), (r) => right(ResumoCartaoMapper().from(r)));
   }
 
   @override
@@ -49,14 +50,15 @@ class DashboardRepository extends BaseRepository
   }
 
   @override
-  Future<Either<ApiException, List<GastoPeriodoEntity>>> gastoGeralPeriodo({@required String responsavel}) async {
+  Future<Either<ApiException, List<GastoPeriodoEntity>>> gastoGeralPeriodo(
+      {@required String responsavel}) async {
     var list = List<GastoPeriodoEntity>();
     try {
-      var result = await _dashboardApi.list(responsavel: responsavel);
+      var result = await _dashboardApi.gastoGeralPeriodo(responsavel: responsavel);
       result.fold(
           (l) => throw l,
           (r) => {
-              list = r.map((dto) => _mapper.from(dto)).toList(),
+                list = r.map((dto) => GastoPeriodoMapper().from(dto)).toList(),
               });
       return right(list);
     } catch (e) {
