@@ -51,16 +51,15 @@ class DashboardController extends BaseController {
   }
 
   loadResumoCartao(TipoCartao tipoCartao) async {
-    var result = await _dashboardUsecase.resumoCartaoByTipoAndResponsavel(tipoCartao: tipoCartao, responsavel: responsavel);
+    var result = await _dashboardUsecase.resumoCartao(tipoCartao: tipoCartao, responsavel: responsavel);
     result.fold(
         (exception) => NotificationCustom.error("Não foi possível buscar resumo cartão ${tipoCartao.description}"),
         (data) => setDataCartao(tipoCartao, data),
     );
   }
 
-
   loadResumoLembrete() async {
-    var result = await _dashboardUsecase.resumoLembrete();
+    var result = await _dashboardUsecase.resumoLembrete(processado: false, responsavel: responsavel);
     result.fold(
           (exception) => NotificationCustom.error("Não foi possível buscar resumo dos lembretes"),
           (data) => resumoLembrete.value = data,
@@ -68,7 +67,7 @@ class DashboardController extends BaseController {
   }
 
   loadResumoDespesaCasa() async {
-    var result = await _dashboardUsecase.resumoDespesaByCategoria(categoriaDespesa: CategoriaDespesa.DESPESA_CASA);
+    var result = await _dashboardUsecase.resumoDespesa(categoriaDespesa: CategoriaDespesa.DESPESA_CASA, responsavel: responsavel);
     result.fold(
           (exception) => NotificationCustom.error("Não foi possível buscar resumo das despesas da casa"),
           (data) => resumoDespesaCasa.value = data,
@@ -76,7 +75,7 @@ class DashboardController extends BaseController {
   }
 
   loadResumoAssinatura() async {
-    var result = await _dashboardUsecase.resumoDespesaByCategoria(categoriaDespesa: CategoriaDespesa.ASSINATURA);
+    var result = await _dashboardUsecase.resumoDespesa(categoriaDespesa: CategoriaDespesa.ASSINATURA, responsavel: responsavel);
     result.fold(
           (exception) => NotificationCustom.error("Não foi possível buscar resumo das assinaturas"),
           (data) => resumoAssinatura.value = data,

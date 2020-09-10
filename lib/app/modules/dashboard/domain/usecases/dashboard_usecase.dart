@@ -15,25 +15,31 @@ class DashboardUsecase {
 
   DashboardUsecase(this._repository);
 
-  Future<Either<ApiException, ResumoCartaoEntity>>
-      resumoCartaoByTipoAndResponsavel({
+  Future<Either<ApiException, ResumoCartaoEntity>> resumoCartao({
     @required TipoCartao tipoCartao,
     @required String responsavel,
   }) async {
-    var result =
-        await _repository.resumoCartaoByTipoAndResponsavel(tipoCartao: EnumToString.parse(tipoCartao), responsavel: responsavel);
+    var result = await _repository.resumoCartao(
+        tipoCartao: EnumToString.parse(tipoCartao), responsavel: responsavel);
     return result.fold((l) => left(l), (r) => right(r));
   }
 
-  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesaByCategoria(
-      {@required CategoriaDespesa categoriaDespesa}) async {
-    var result = await _repository.resumoDespesaByCategoria(
-        categoriaDespesa: categoriaDespesa.toString());
+  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesa({
+    @required CategoriaDespesa categoriaDespesa,
+    @required String responsavel,
+  }) async {
+    var result = await _repository.resumoDespesa(
+        categoriaDespesa: EnumToString.parse(categoriaDespesa),
+        responsavel: responsavel);
     return result.fold((l) => left(l), (r) => right(r));
   }
 
-  Future<Either<ApiException, ResumoLembreteEntity>> resumoLembrete() async {
-    var result = await _repository.resumoLembrete();
+  Future<Either<ApiException, ResumoLembreteEntity>> resumoLembrete({
+    @required bool processado,
+    @required String responsavel,
+  }) async {
+    var result = await _repository.resumoLembrete(
+        processado: processado, responsavel: responsavel);
     return result.fold((l) => left(l), (r) => right(r));
   }
 

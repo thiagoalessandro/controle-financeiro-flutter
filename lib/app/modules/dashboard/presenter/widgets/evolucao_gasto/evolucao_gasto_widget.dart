@@ -38,7 +38,7 @@ class EvolucaoGastoWidget extends BaseView with EvolucaoGastoStyle {
                 child: charts.OrdinalComboChart(
                   seriesList,
                   animate: true,
-                  defaultRenderer: charts.LineRendererConfig<String>(),
+                  defaultRenderer: charts.BarRendererConfig<String>(),
                   defaultInteractions: true,
                   behaviors: [
                     charts.SelectNearest(),

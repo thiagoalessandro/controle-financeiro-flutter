@@ -5,6 +5,8 @@ import 'package:project_ref_getx/app/core/external/repositories/base_repository.
 import 'package:project_ref_getx/app/modules/dashboard/data/datasources/dashboard_api.dart';
 import 'package:project_ref_getx/app/modules/dashboard/data/mapper/gasto_periodo_mapper.dart';
 import 'package:project_ref_getx/app/modules/dashboard/data/mapper/resumo_cartao_mapper.dart';
+import 'package:project_ref_getx/app/modules/dashboard/data/mapper/resumo_despesa_mapper.dart';
+import 'package:project_ref_getx/app/modules/dashboard/data/mapper/resumo_lembrete_mapper.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/gasto_periodo_entity.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/resumo_cartao_entity.dart';
 import 'package:project_ref_getx/app/modules/dashboard/domain/entities/resumo_despesa_entity.dart';
@@ -20,28 +22,36 @@ class DashboardRepository extends BaseRepository
   );
 
   @override
-  Future<Either<ApiException, ResumoCartaoEntity>>
-      resumoCartaoByTipoAndResponsavel({
+  Future<Either<ApiException, ResumoCartaoEntity>> resumoCartao({
     @required String tipoCartao,
     @required String responsavel,
   }) async {
-    var result = await _dashboardApi.resumoCartaoByTipoAndResponsavel(tipoCartao: tipoCartao, responsavel: responsavel);
-    return result.fold((l) => left(l), (r) => right(ResumoCartaoMapper().from(r)));
+    var result = await _dashboardApi.resumoCartao(
+        tipoCartao: tipoCartao, responsavel: responsavel);
+    return result.fold(
+        (l) => left(l), (r) => right(ResumoCartaoMapper().from(r)));
   }
 
   @override
-  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesaByCategoria(
-      {@required String categoriaDespesa}) async {
-    ResumoDespesaEntity resumoDespesaEntity =
-        ResumoDespesaEntity(quantidade: 10, valor: 3825.0);
-    return right(resumoDespesaEntity);
+  Future<Either<ApiException, ResumoDespesaEntity>> resumoDespesa({
+    @required String categoriaDespesa,
+    @required String responsavel,
+  }) async {
+    var result = await _dashboardApi.resumoDespesa(
+        categoriaDespesa: categoriaDespesa, responsavel: responsavel);
+    return result.fold(
+            (l) => left(l), (r) => right(ResumoDespesaMapper().from(r)));
   }
 
   @override
-  Future<Either<ApiException, ResumoLembreteEntity>> resumoLembrete() async {
-    ResumoLembreteEntity resumoLembreteEntity =
-        ResumoLembreteEntity(quantidade: 5, valor: 1287.0);
-    return right(resumoLembreteEntity);
+  Future<Either<ApiException, ResumoLembreteEntity>> resumoLembrete({
+    @required bool processado,
+    @required String responsavel,
+  }) async {
+    var result = await _dashboardApi.resumoLembrete(
+        processado: processado, responsavel: responsavel);
+    return result.fold(
+        (l) => left(l), (r) => right(ResumoLembreteMapper().from(r)));
   }
 
   @override
@@ -54,7 +64,8 @@ class DashboardRepository extends BaseRepository
       {@required String responsavel}) async {
     var list = List<GastoPeriodoEntity>();
     try {
-      var result = await _dashboardApi.gastoGeralPeriodo(responsavel: responsavel);
+      var result =
+          await _dashboardApi.gastoGeralPeriodo(responsavel: responsavel);
       result.fold(
           (l) => throw l,
           (r) => {
